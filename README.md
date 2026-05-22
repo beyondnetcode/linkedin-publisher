@@ -1,6 +1,13 @@
 # 🚀 Centro de Mando LinkedIn — `linked-publisher`
 
+<div align="right">
+
+🌐 **Idioma / Language:** Español &nbsp;|&nbsp; [English](./README.en.md)
+
+</div>
+
 > Convierte cualquier artículo técnico en Markdown en un post de LinkedIn bilingüe, listo para publicar, usando **Google Gemini** y **GitHub Actions** — sin depender de Zapier, Make ni ninguna plataforma de terceros.
+
 
 ---
 
@@ -346,7 +353,8 @@ linked-publisher/
 │   └── generate.js         ← Motor principal: fetch → Gemini → Issue
 ├── .gitignore              ← Excluye node_modules y .env del repo
 ├── package.json            ← Dependencias y configuración ESM
-└── README.md               ← Este manual
+├── README.md               ← Este manual (Español)
+└── README.en.md            ← This manual (English)
 ```
 
 ### Stack y dependencias
