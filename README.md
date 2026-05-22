@@ -349,9 +349,15 @@ linked-publisher/
 └── README.md               ← Este manual
 ```
 
-### Dependencias utilizadas
+### Stack y dependencias
 
-| Paquete | Versión | Propósito |
+| | Tecnología | Versión |
+|---|---|---|
+| **Runtime** | Node.js 22 LTS | `v22.16.0` |
+| **AI** | Google Gemini 2.5 Pro | — |
+| **CI/CD** | GitHub Actions | — |
+
+| Paquete npm | Versión | Propósito |
 |---|---|---|
 | `@google/genai` | `^0.7.0` | Cliente oficial de Google Gemini |
 | `@actions/github` | `^6.0.0` | Cliente de GitHub API (Octokit) |
