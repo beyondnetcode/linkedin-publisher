@@ -1,0 +1,61 @@
+# =============================================================================
+# .github/workflows/draft.yml
+#
+# Workflow: "LinkedIn Post Drafter"
+# Trigger: Manual (workflow_dispatch) — el usuario provee la URL del artículo.
+#
+# Flujo:
+#   1. El usuario lanza el workflow desde GitHub UI con la URL del artículo.
+#   2. Se instalan dependencias de Node.js.
+#   3. Se ejecuta scripts/generate.js que:
+#      a. Descarga el artículo Markdown.
+#      b. Llama a Gemini para generar los posts.
+#      c. Crea un Issue en este repo como "Sala de Aprobación".
+# =============================================================================
+
+name: 📝 LinkedIn Post Drafter
+
+on:
+  workflow_dispatch:
+    inputs:
+      article_url:
+        description: "URL pública (raw) del artículo en Markdown"
+        required: true
+        type: string
+
+# Permiso explícito para crear Issues en el repositorio
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  draft-linkedin-post:
+    name: Generar borrador de post
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Checkout del repositorio ──────────────────────────────────────
+      - name: ⬇️ Checkout del repositorio
+        uses: actions/checkout@v4
+
+      # ── 2. Configurar Node.js (LTS) ───────────────────────────────────────
+      - name: 🟢 Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      # ── 3. Instalar dependencias ──────────────────────────────────────────
+      - name: 📦 Instalar dependencias
+        run: npm ci
+
+      # ── 4. Ejecutar el motor de generación ───────────────────────────────
+      - name: 🤖 Generar post con Gemini y crear Issue
+        env:
+          # API Key de Google Gemini — configurar en Settings > Secrets > Actions
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          # Token nativo de GitHub Actions (no requiere configuración adicional)
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # URL del artículo provista por el usuario al lanzar el workflow
+          ARTICLE_URL: ${{ inputs.article_url }}
+        run: node scripts/generate.js
