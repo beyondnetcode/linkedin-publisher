@@ -11,6 +11,10 @@
 #      a. Descarga el artículo Markdown.
 #      b. Llama a Gemini para generar los posts.
 #      c. Crea un Issue en este repo como "Sala de Aprobación".
+#
+# Modelos disponibles:
+#   - gemini-2.5-flash → Gratis (free tier). Rápido y capaz. Opción por defecto.
+#   - gemini-2.5-pro   → Requiere billing activo en Google Cloud. Mayor calidad.
 # =============================================================================
 
 name: 📝 LinkedIn Post Drafter
@@ -22,6 +26,14 @@ on:
         description: "URL pública (raw) del artículo en Markdown"
         required: true
         type: string
+      gemini_model:
+        description: "Modelo de Gemini a usar"
+        required: false
+        type: choice
+        default: "gemini-2.5-flash"
+        options:
+          - gemini-2.5-flash
+          - gemini-2.5-pro
 
 # Permiso explícito para crear Issues en el repositorio
 permissions:
@@ -58,4 +70,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # URL del artículo provista por el usuario al lanzar el workflow
           ARTICLE_URL: ${{ inputs.article_url }}
+          # Modelo de Gemini seleccionado por el usuario (default: gemini-2.5-flash)
+          GEMINI_MODEL: ${{ inputs.gemini_model }}
         run: node scripts/generate.js

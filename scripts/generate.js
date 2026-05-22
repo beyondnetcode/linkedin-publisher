@@ -26,8 +26,13 @@ import fetch from "node-fetch";
 
 // ─── Constantes ──────────────────────────────────────────────────────────────
 
-/** Modelo de Gemini a utilizar */
-const GEMINI_MODEL = "gemini-2.5-pro";
+/**
+ * Modelo de Gemini a utilizar.
+ * Configurable vía variable de entorno GEMINI_MODEL.
+ * Default: gemini-2.5-flash (disponible en free tier).
+ * Alternativa de pago: gemini-2.5-pro (requiere billing activo).
+ */
+const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
 
 /**
  * System Prompt especializado para el Director de Comunicación.
@@ -94,9 +99,32 @@ async function fetchArticle(url) {
  * @param {string} articleText - Texto completo del artículo Markdown.
  * @returns {Promise<{post_es: string, post_en: string, prompt_imagen: string}>}
  */
-async function generateWithGemini(apiKey, articleText) {
-  core.info(`🤖 Enviando artículo a Gemini (${GEMINI_MODEL})...`);
+/**
+ * Espera un tiempo determinado (ms) antes de continuar.
+ * Usado para backoff exponencial en reintentos.
+ *
+ * @param {number} ms - Milisegundos a esperar.
+ */
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
+/**
+ * Llama a la API de Google Gemini con reintentos automáticos.
+ * Implementa backoff exponencial para errores 429 (rate limit).
+ *
+ * @param {string} apiKey      - Clave de API de Google Gemini.
+ * @param {string} articleText - Texto completo del artículo Markdown.
+ * @param {number} attempt     - Número de intento actual (para recursión).
+ * @returns {Promise<{post_es: string, post_en: string, prompt_imagen: string}>}
+ */
+async function generateWithGemini(apiKey, articleText, attempt = 1) {
+  const MAX_ATTEMPTS = 4;
+  const BASE_DELAY_MS = 15000; // 15 segundos base
+
+  core.info(`🤖 Enviando artículo a Gemini (${GEMINI_MODEL}) — intento ${attempt}/${MAX_ATTEMPTS}...`);
+
+  try {
   // Inicializar el cliente de Gemini con la API Key
   const genAI = new GoogleGenAI({ apiKey });
 
@@ -158,6 +186,42 @@ async function generateWithGemini(apiKey, articleText) {
 
   core.info(`✅ JSON de Gemini validado: post_es ✓ | post_en ✓ | prompt_imagen ✓`);
   return parsed;
+
+  } catch (error) {
+    const isRateLimit =
+      error.message?.includes("429") ||
+      error.message?.includes("RESOURCE_EXHAUSTED") ||
+      error.message?.includes("Too Many Requests");
+
+    if (isRateLimit && attempt < MAX_ATTEMPTS) {
+      // Calcular tiempo de espera con backoff exponencial + jitter aleatorio
+      const delayMs = BASE_DELAY_MS * Math.pow(2, attempt - 1) + Math.random() * 5000;
+      const delaySec = Math.round(delayMs / 1000);
+
+      core.warning(
+        `⚠️ Rate limit (429) de Gemini detectado. ` +
+        `Esperando ${delaySec}s antes del intento ${attempt + 1}/${MAX_ATTEMPTS}...`
+      );
+
+      await sleep(delayMs);
+      return generateWithGemini(apiKey, articleText, attempt + 1);
+    }
+
+    // Si no es rate limit o se agotaron los intentos, propagar el error
+    if (isRateLimit) {
+      throw new Error(
+        `❌ Límite de cuota de Gemini agotado después de ${MAX_ATTEMPTS} intentos.\n\n` +
+        `El modelo "${GEMINI_MODEL}" puede no estar disponible en el free tier.\n\n` +
+        `Soluciones:\n` +
+        `  1. Usa el modelo gratuito: configura GEMINI_MODEL=gemini-2.5-flash en el workflow.\n` +
+        `  2. Activa facturación en Google Cloud para usar gemini-2.5-pro.\n` +
+        `  3. Espera unos minutos y vuelve a ejecutar el workflow.\n\n` +
+        `Más info: https://ai.google.dev/gemini-api/docs/rate-limits`
+      );
+    }
+
+    throw error;
+  }
 }
 
 /**
