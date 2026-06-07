@@ -1,8 +1,8 @@
-# 🚀 Centro de Mando LinkedIn — `linked-publisher`
+# Centro de Mando LinkedIn — `linked-publisher`
 
 <div align="right">
 
-🌐 **Idioma / Language:** Español &nbsp;|&nbsp; [English](./README.en.md)
+ **Idioma / Language:** Español &nbsp;|&nbsp; [English](./README.en.md)
 
 </div>
 
@@ -23,7 +23,7 @@ Tú pegas una URL  →  GitHub Actions descarga el artículo
 
 ---
 
-## 📋 Índice
+## Índice
 
 1. [Requisitos previos](#-requisitos-previos)
 2. [Paso 1 — Conseguir tu API Key de Gemini](#-paso-1--conseguir-tu-api-key-de-gemini)
@@ -38,7 +38,7 @@ Tú pegas una URL  →  GitHub Actions descarga el artículo
 
 ---
 
-## ✅ Requisitos previos
+## Requisitos previos
 
 Antes de empezar, asegúrate de tener:
 
@@ -50,7 +50,7 @@ Antes de empezar, asegúrate de tener:
 
 ---
 
-## 🔑 Paso 1 — Conseguir tu API Key de Gemini
+## Paso 1 — Conseguir tu API Key de Gemini
 
 1. Abre **[Google AI Studio](https://aistudio.google.com/apikey)** en tu navegador.
 
@@ -65,11 +65,11 @@ Antes de empezar, asegúrate de tener:
 
 4. **Guárdala en un lugar seguro** (como un gestor de contraseñas). La necesitarás en el siguiente paso.
 
-> ⚠️ **Importante:** Nunca pegues esta clave directamente en el código ni en un archivo del repositorio. La manejaremos de forma segura en el siguiente paso.
+> **Importante:** Nunca pegues esta clave directamente en el código ni en un archivo del repositorio. La manejaremos de forma segura en el siguiente paso.
 
 ---
 
-## 🔒 Paso 2 — Configurar el Secret en GitHub
+## Paso 2 — Configurar el Secret en GitHub
 
 Este es el paso más importante para mantener tus credenciales seguras.
 
@@ -93,13 +93,13 @@ Este es el paso más importante para mantener tus credenciales seguras.
 
 6. Haz clic en **`Add secret`**.
 
-7. ✅ Verás `GEMINI_API_KEY` listado en la tabla de secrets. Listo.
+7. Verás `GEMINI_API_KEY` listado en la tabla de secrets. Listo.
 
 > El `GITHUB_TOKEN` **no necesitas configurarlo**. GitHub lo genera automáticamente en cada ejecución del workflow.
 
 ---
 
-## 🏷️ Paso 3 — Crear las etiquetas del repositorio
+## Paso 3 — Crear las etiquetas del repositorio
 
 Las etiquetas permiten filtrar fácilmente todos tus borradores. Solo necesitas hacerlo **una vez**.
 
@@ -123,13 +123,13 @@ Las etiquetas permiten filtrar fácilmente todos tus borradores. Solo necesitas 
    | **Label name** | `pending-review` |
    | **Color** | `#FFA500` *(naranja)* |
 
-6. ✅ Ya tienes las dos etiquetas. Todos los borradores aparecerán marcados automáticamente.
+6. Ya tienes las dos etiquetas. Todos los borradores aparecerán marcados automáticamente.
 
 > **¿Qué pasa si me salto este paso?** El workflow igual funcionará, pero verás un warning en los logs indicando que las etiquetas no existen. El Issue se creará sin etiquetas.
 
 ---
 
-## 🔗 Paso 4 — Preparar la URL de tu artículo
+## Paso 4 — Preparar la URL de tu artículo
 
 El workflow necesita la URL **raw** (texto plano) de tu artículo Markdown. Esta URL devuelve el contenido sin renderizar, que es lo que Gemini puede leer.
 
@@ -155,15 +155,15 @@ El workflow necesita la URL **raw** (texto plano) de tu artículo Markdown. Esta
 
 Cualquier URL que devuelva texto Markdown plano funcionará, siempre que sea **pública y accesible sin autenticación**.
 
-> ⚠️ **Error frecuente:** Pegar la URL de la página de GitHub (con la interfaz visual) en lugar de la URL raw. Si la URL contiene `github.com/TU_USUARIO/REPO/blob/`, eso es la vista renderizada — necesitas la que contiene `raw.githubusercontent.com`.
+> **Error frecuente:** Pegar la URL de la página de GitHub (con la interfaz visual) en lugar de la URL raw. Si la URL contiene `github.com/TU_USUARIO/REPO/blob/`, eso es la vista renderizada — necesitas la que contiene `raw.githubusercontent.com`.
 
 ---
 
-## ▶️ Paso 5 — Lanzar el workflow
+## ▶ Paso 5 — Lanzar el workflow
 
 1. Ve a la pestaña **`Actions`** de tu repositorio.
 
-2. En el panel izquierdo, haz clic en **`📝 LinkedIn Post Drafter`**.
+2. En el panel izquierdo, haz clic en **` LinkedIn Post Drafter`**.
 
 3. Verás un banner amarillo que dice *"This workflow has a `workflow_dispatch` event trigger."*. Haz clic en el botón **`Run workflow`** que aparece a la derecha.
 
@@ -189,11 +189,11 @@ Cualquier URL que devuelva texto Markdown plano funcionará, siempre que sea **p
    ✅ Issue creado exitosamente: https://github.com/beyondnetcode/linkedin-publisher/issues/1
    ```
 
-8. Al terminar, el círculo se volverá verde (✅). El proceso completo tarda entre **20 y 40 segundos**.
+8. Al terminar, el círculo se volverá verde (). El proceso completo tarda entre **20 y 40 segundos**.
 
 ---
 
-## 📬 Paso 6 — Revisar tu Sala de Aprobación
+## Paso 6 — Revisar tu Sala de Aprobación
 
 1. Ve a la pestaña **`Issues`** de tu repositorio.
 
@@ -206,17 +206,17 @@ Cualquier URL que devuelva texto Markdown plano funcionará, siempre que sea **p
 
    ---
 
-   ### 📝 Versión en Español
+   ### Versión en Español
    El post completo listo para LinkedIn en español. Incluye el gancho inicial, el desarrollo y el cierre con llamada a la acción.
 
    ---
 
-   ### 🌐 Versión en Inglés
+   ### Versión en Inglés
    La misma versión adaptada al inglés, optimizada para audiencias anglófonas.
 
    ---
 
-   ### 🖼️ Prompt para Generación de Imagen
+   ### Prompt para Generación de Imagen
    Un bloque de código listo para copiar y pegar en tu herramienta de imágenes preferida (Midjourney, DALL·E 3, Adobe Firefly, Google Imagen, etc.). El prompt ya especifica:
    - Estilo fotográfico hiperrealista
    - Relación de aspecto 4:5 (vertical, perfecta para LinkedIn)
@@ -224,16 +224,16 @@ Cualquier URL que devuelva texto Markdown plano funcionará, siempre que sea **p
 
    ---
 
-   ### ✅ Checklist de Revisión
+   ### Checklist de Revisión
    Una lista de verificación para asegurarte de que el post cumple con tus estándares antes de publicar.
 
-4. **Edita el Issue** si quieres ajustar algún texto. Haz clic en el ícono de lápiz (✏️) del cuerpo del Issue.
+4. **Edita el Issue** si quieres ajustar algún texto. Haz clic en el ícono de lápiz () del cuerpo del Issue.
 
 5. Cuando estés satisfecho, cierra el Issue marcándolo como **`Closed as completed`**.
 
 ---
 
-## 📤 Paso 7 — Publicar en LinkedIn
+## Paso 7 — Publicar en LinkedIn
 
 1. **Copia** el texto del post (español, inglés, o ambos) del Issue.
 
@@ -249,13 +249,13 @@ Cualquier URL que devuelva texto Markdown plano funcionará, siempre que sea **p
 
 5. Adjunta la imagen generada (formato recomendado: JPG o PNG, relación 4:5).
 
-6. Publica. 🎉
+6. Publica.
 
 ---
 
-## 🔧 Solución de problemas
+## Solución de problemas
 
-### ❌ El workflow falla con "Variable de entorno requerida no encontrada: GEMINI_API_KEY"
+### El workflow falla con "Variable de entorno requerida no encontrada: GEMINI_API_KEY"
 
 **Causa:** El secret no está configurado o tiene un nombre diferente.
 
@@ -266,7 +266,7 @@ Cualquier URL que devuelva texto Markdown plano funcionará, siempre que sea **p
 
 ---
 
-### ❌ El workflow falla con "HTTP 404" al descargar el artículo
+### El workflow falla con "HTTP 404" al descargar el artículo
 
 **Causa:** La URL del artículo no es correcta o el archivo no es público.
 
@@ -277,7 +277,7 @@ Cualquier URL que devuelva texto Markdown plano funcionará, siempre que sea **p
 
 ---
 
-### ❌ El workflow falla con "No se pudo parsear la respuesta de Gemini"
+### El workflow falla con "No se pudo parsear la respuesta de Gemini"
 
 **Causa:** Gemini devolvió una respuesta inesperada (puede ocurrir con artículos muy cortos o muy largos).
 
@@ -288,15 +288,15 @@ Cualquier URL que devuelva texto Markdown plano funcionará, siempre que sea **p
 
 ---
 
-### ❌ El Issue se crea pero no tiene etiquetas
+### El Issue se crea pero no tiene etiquetas
 
 **Causa:** Las etiquetas `linkedin-draft` o `pending-review` no existen en el repositorio.
 
-**Solución:** Créalas siguiendo el [Paso 3](#️-paso-3--crear-las-etiquetas-del-repositorio). No afecta el contenido del Issue, solo su categorización.
+**Solución:** Créalas siguiendo el [Paso 3](#-paso-3--crear-las-etiquetas-del-repositorio). No afecta el contenido del Issue, solo su categorización.
 
 ---
 
-### ❌ No veo la pestaña "Actions" en mi repositorio
+### No veo la pestaña "Actions" en mi repositorio
 
 **Causa:** GitHub Actions puede estar deshabilitado.
 
@@ -307,7 +307,7 @@ Cualquier URL que devuelva texto Markdown plano funcionará, siempre que sea **p
 
 ---
 
-## 🏗️ Arquitectura y seguridad
+## Arquitectura y seguridad
 
 ### Flujo de datos
 
@@ -339,8 +339,8 @@ Cualquier URL que devuelva texto Markdown plano funcionará, siempre que sea **p
 
 | Credencial | Dónde vive | ¿Aparece en logs? | ¿Sale del repo? |
 |---|---|---|---|
-| `GEMINI_API_KEY` | GitHub Encrypted Secret | ❌ Nunca | ❌ Nunca |
-| `GITHUB_TOKEN` | Generado por Actions por ejecución | ❌ Nunca | ❌ Nunca |
+| `GEMINI_API_KEY` | GitHub Encrypted Secret | Nunca | Nunca |
+| `GITHUB_TOKEN` | Generado por Actions por ejecución | Nunca | Nunca |
 
 ### Estructura del proyecto
 
@@ -376,6 +376,6 @@ linked-publisher/
 
 <div align="center">
 
-Hecho con ☕ y Gemini · [beyondnetcode](https://github.com/beyondnetcode)
+Hecho con y Gemini · [beyondnetcode](https://github.com/beyondnetcode)
 
 </div>
